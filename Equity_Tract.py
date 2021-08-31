@@ -1,11 +1,10 @@
-#
-
 #################
 import requests
 import pandas as pd
 import json
 import csv
 
+## Input
 # csv_name = 'data.csv'
 state = '17'
 county = '031'
@@ -101,7 +100,7 @@ vars = 'NAME,' \
 # B06007_008E: Total Speak Other Language but speak English less than "very well"
 
 ###
-vars_list = [ 'Name',
+vars_list = ['Name',
              'Population', # B02001_001E
              'Income in the past 12 months below poverty line UNIVERSE', # B17001_001E
              'Income in the past 12 months below poverty line', # B17001_002E
@@ -152,123 +151,99 @@ vars_list = [ 'Name',
              'County',
             'Tract']
 
-# url = 'https://api.census.gov/data/2019/acs/acs5?get='
-#
-# print('https://api.census.gov/data/2019/acs/acs5?get=NAME&for=block%20group:*&in=state:17%20county:031')
-# r = requests.get(url + vars + '&for=tract:' + tract + '&in=state:' + state + '&in=county:' + county)
-# print(r)
-# request_text = r.text
+url = 'https://api.census.gov/data/2019/acs/acs5?get='
+
+print('https://api.census.gov/data/2019/acs/acs5?get=NAME&for=block%20group:*&in=state:17%20county:031')
+r = requests.get(url + vars + '&for=tract:' + tract + '&in=state:' + state + '&in=county:' + county)
+print(r)
+request_text = r.text
 # print(r.text)
-# data = json.loads(r.text)
-# df = pd.DataFrame(data, columns=vars_list)
+data = json.loads(r.text)
+df = pd.DataFrame(data, columns=vars_list)
 # print(data)
-#
-# df.to_csv(r'IL_Cook2.csv')
+
+df.to_csv(r'data/IL_Cook2.csv')
+
+print("\nExported dataset 2...\n")
 
 
+df_2 = pd.read_csv(r'data/IL_Cook2.csv')
+df_2 = df_2.iloc[1:,:] # first row is column headers
 
-df_2 = pd.read_csv(r'IL_Cook2.csv')
-
-print(df_2)
+# print(df_2)
 
 df_2[['Male, no schooling', 'Male, nursery to 4th', 'Male, 5th and 6th', 'Male, 7th and 8th', 'Male, 9th', 'Male, 10th', 'Male, 11th', 'Male, 12th no diploma', 'Female, no schooling', 'Female, nursery to 4th', 'Female, 5th and 6th' , 'Female, 7th and 8th', 'Female, 9th', 'Female, 10th', 'Female, 11th', 'Female, 12th no diploma', 'Educational Attainment UNIVERSE', 'Sex By Age White Alone UNIVERSE', 'Total Speak Other Language but speak English less than "very well"', 'Total Speak Other Language but speak English less than "very well" UNIVERSE', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line UNIVERSE', 'Percent Median Income']] = df_2[['Male, no schooling', 'Male, nursery to 4th', 'Male, 5th and 6th' , 'Male, 7th and 8th', 'Male, 9th', 'Male, 10th', 'Male, 11th', 'Male, 12th no diploma', 'Female, no schooling', 'Female, nursery to 4th', 'Female, 5th and 6th' , 'Female, 7th and 8th', 'Female, 9th', 'Female, 10th', 'Female, 11th', 'Female, 12th no diploma', 'Educational Attainment UNIVERSE', 'Sex By Age White Alone UNIVERSE', 'Total Speak Other Language but speak English less than "very well"', 'Total Speak Other Language but speak English less than "very well" UNIVERSE', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line UNIVERSE', 'Median Income']].apply(pd.to_numeric)
 
 df_2[['Male, White Alone, 15 to 17', 'Male, White Alone, 18 and 19', 'Male, White Alone, 20 to 24', 'Male, White Alone, 25 to 29', 'Male, White Alone, 30 to 34', 'Male, White Alone, 35 to 44', 'Male, White Alone, 45 to 54', 'Male, White Alone, 55 to 64', 'Male, White Alone, 65 to 74', 'Male, White Alone, 65 to 74', 'Male, White Alone, 85 and over', 'Female, White Alone, 15 to 17', 'Female, White Alone, 18 and 19', 'Female, White Alone, 20 to 24', 'Female, White Alone, 25 to 29', 'Female, White Alone, 30 to 34', 'Female, White Alone, 35 to 44', 'Female, White Alone, 45 to 54', 'Female, White Alone, 55 to 64', 'Female, White Alone, 65 to 74', 'Female, White Alone, 65 to 74', 'Female, White Alone, 85 and over']] = df_2[['Male, White Alone, 15 to 17', 'Male, White Alone, 18 and 19', 'Male, White Alone, 20 to 24', 'Male, White Alone, 25 to 29', 'Male, White Alone, 30 to 34', 'Male, White Alone, 35 to 44', 'Male, White Alone, 45 to 54', 'Male, White Alone, 55 to 64', 'Male, White Alone, 65 to 74', 'Male, White Alone, 65 to 74', 'Male, White Alone, 85 and over', 'Female, White Alone, 15 to 17', 'Female, White Alone, 18 and 19', 'Female, White Alone, 20 to 24', 'Female, White Alone, 25 to 29', 'Female, White Alone, 30 to 34', 'Female, White Alone, 35 to 44', 'Female, White Alone, 45 to 54', 'Female, White Alone, 55 to 64', 'Female, White Alone, 65 to 74', 'Female, White Alone, 65 to 74', 'Female, White Alone, 85 and over']].apply(pd.to_numeric)
 
 # df_2[['State', 'County', 'Tract']] = df_2[['State', 'County', 'Tract']].apply(pd.as_type(str))
+edu_cols = [
+    'Male, no schooling',
+    'Male, nursery to 4th',
+    'Male, 5th and 6th',
+    'Male, 7th and 8th',
+    'Male, 9th',
+    'Male, 10th',
+    'Male, 11th',
+    'Male, 12th no diploma',
+    'Female, no schooling',
+    'Female, nursery to 4th',
+    'Female, 5th and 6th',
+    'Female, 7th and 8th',
+    'Female, 9th',
+    'Female, 10th',
+    'Female, 11th',
+    'Female, 12th no diploma',
+]
 
-df_2['Percent Educational Attainment Less Than HS'] = ((df_2['Male, no schooling'] +
-                                               df_2['Male, nursery to 4th'] +
-                                               df_2['Male, 5th and 6th'] +
-                                               df_2['Male, 7th and 8th'] +
-                                               df_2['Male, 9th'] +
-                                               df_2['Male, 10th'] +
-                                               df_2['Male, 11th'] +
-                                               df_2['Male, 12th no diploma'] +
-                                               df_2['Female, no schooling'] +
-                                               df_2['Female, nursery to 4th'] +
-                                               df_2['Female, 5th and 6th'] +
-                                               df_2['Female, 7th and 8th'] +
-                                               df_2['Female, 9th'] +
-                                               df_2['Female, 10th'] +
-                                               df_2['Female, 11th'] +
-                                               df_2['Female, 12th no diploma']) / df_2['Educational Attainment UNIVERSE']) * 100
+df_2['Percent Educational Attainment Less Than HS'] = (df_2[edu_cols].sum(axis=1) / df_2['Educational Attainment UNIVERSE']) * 100
 
-df_2['Total Educational Attainment Less Than HS'] = (df_2['Male, no schooling'] +
-                                               df_2['Male, nursery to 4th'] +
-                                               df_2['Male, 5th and 6th'] +
-                                               df_2['Male, 7th and 8th'] +
-                                               df_2['Male, 9th'] +
-                                               df_2['Male, 10th'] +
-                                               df_2['Male, 11th'] +
-                                               df_2['Male, 12th no diploma'] +
-                                               df_2['Female, no schooling'] +
-                                               df_2['Female, nursery to 4th'] +
-                                               df_2['Female, 5th and 6th'] +
-                                               df_2['Female, 7th and 8th'] +
-                                               df_2['Female, 9th'] +
-                                               df_2['Female, 10th'] +
-                                               df_2['Female, 11th'] +
-                                               df_2['Female, 12th no diploma'])
+df_2['Total Educational Attainment Less Than HS'] = df_2[edu_cols].sum(axis=1)
 
-df_2['Percent Non-White Population'] = 100 - (((
-    df_2['Male, White Alone, 15 to 17'] +
-    df_2['Male, White Alone, 18 and 19'] +
-    df_2['Male, White Alone, 20 to 24'] +
-    df_2['Male, White Alone, 25 to 29'] +
-    df_2['Male, White Alone, 30 to 34'] +
-    df_2['Male, White Alone, 35 to 44'] +
-    df_2['Male, White Alone, 45 to 54'] +
-    df_2['Male, White Alone, 55 to 64'] +
-    df_2['Male, White Alone, 65 to 74'] +
-    df_2['Male, White Alone, 75 to 84'] +
-    df_2['Male, White Alone, 85 and over'] +
-    df_2['Female, White Alone, 15 to 17'] +
-    df_2['Female, White Alone, 18 and 19'] +
-    df_2['Female, White Alone, 20 to 24'] +
-    df_2['Female, White Alone, 25 to 29'] +
-    df_2['Female, White Alone, 30 to 34'] +
-    df_2['Female, White Alone, 35 to 44'] +
-    df_2['Female, White Alone, 45 to 54'] +
-    df_2['Female, White Alone, 55 to 64'] +
-    df_2['Female, White Alone, 65 to 74'] +
-    df_2['Female, White Alone, 75 to 84'] +
-    df_2['Female, White Alone, 85 and over']
-                                        ) / df_2['Sex By Age White Alone UNIVERSE']) *100)
+# ensure integers
+pnw_cols = [
+    'Male, White Alone, 15 to 17',
+    'Male, White Alone, 18 and 19',
+    'Male, White Alone, 20 to 24',
+    'Male, White Alone, 25 to 29',
+    'Male, White Alone, 30 to 34',
+    'Male, White Alone, 35 to 44',
+    'Male, White Alone, 45 to 54',
+    'Male, White Alone, 55 to 64',
+    'Male, White Alone, 65 to 74',
+    'Male, White Alone, 75 to 84',
+    'Male, White Alone, 85 and over',
+    'Female, White Alone, 15 to 17',
+    'Female, White Alone, 18 and 19',
+    'Female, White Alone, 20 to 24',
+    'Female, White Alone, 25 to 29',
+    'Female, White Alone, 30 to 34',
+    'Female, White Alone, 35 to 44',
+    'Female, White Alone, 45 to 54',
+    'Female, White Alone, 55 to 64',
+    'Female, White Alone, 65 to 74',
+    'Female, White Alone, 75 to 84',
+    'Female, White Alone, 85 and over',
+]
 
-df_2['Total Non-White Population'] = (
-    df_2['Male, White Alone, 15 to 17'] +
-    df_2['Male, White Alone, 18 and 19'] +
-    df_2['Male, White Alone, 20 to 24'] +
-    df_2['Male, White Alone, 25 to 29'] +
-    df_2['Male, White Alone, 30 to 34'] +
-    df_2['Male, White Alone, 35 to 44'] +
-    df_2['Male, White Alone, 45 to 54'] +
-    df_2['Male, White Alone, 55 to 64'] +
-    df_2['Male, White Alone, 65 to 74'] +
-    df_2['Male, White Alone, 75 to 84'] +
-    df_2['Male, White Alone, 85 and over'] +
-    df_2['Female, White Alone, 15 to 17'] +
-    df_2['Female, White Alone, 18 and 19'] +
-    df_2['Female, White Alone, 20 to 24'] +
-    df_2['Female, White Alone, 25 to 29'] +
-    df_2['Female, White Alone, 30 to 34'] +
-    df_2['Female, White Alone, 35 to 44'] +
-    df_2['Female, White Alone, 45 to 54'] +
-    df_2['Female, White Alone, 55 to 64'] +
-    df_2['Female, White Alone, 65 to 74'] +
-    df_2['Female, White Alone, 75 to 84'] +
-    df_2['Female, White Alone, 85 and over']
-                                        )
+for col in pnw_cols:
+    df_2[col] = df_2[col].apply(pd.to_numeric)
+
+df_2['Percent Non-White Population'] = 100 - ((df_2[pnw_cols].sum(axis=1) / df_2['Sex By Age White Alone UNIVERSE']) *100)
+
+df_2['Total Non-White Population'] = df_2[pnw_cols].sum(axis=1)
+
 
 df_2['Percent Total Speak Other Language but speak English less than "very well'] = (df_2['Total Speak Other Language but speak English less than "very well"'] / df_2['Total Speak Other Language but speak English less than "very well" UNIVERSE']) * 100
 
 df_2['Percent Below Poverty Line'] = (df_2['Income in the past 12 months below poverty line'] / df_2['Income in the past 12 months below poverty line UNIVERSE']) * 100
 
+# enforce value types
 df_2['State'] = "0" + df_2['State'].astype(str)
 df_2['County'] = "0" + df_2['County'].astype(str)
 df_2['Tract'] = "0" + df_2['Tract'].astype(str)
 df_2['FIPS_Interim'] = df_2['State'] + df_2['County'] + df_2['Tract']
+df_2['Median Income'] = df_2['Median Income'].apply(pd.to_numeric)
 
 for i in df_2['Median Income']:
     if i < 0:
@@ -277,10 +252,13 @@ for i in df_2['Median Income']:
 
 df_3 = df_2[['Percent Educational Attainment Less Than HS', 'Total Educational Attainment Less Than HS', 'Total Non-White Population', 'Percent Non-White Population', 'Percent Total Speak Other Language but speak English less than "very well' , 'Total Speak Other Language but speak English less than "very well"', 'Percent Below Poverty Line', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line', 'Median Income', 'State', 'County', 'Tract','Name', 'FIPS_Interim', 'Population']]
 
-df_3.to_csv(r'IL_Cook3.csv')
+df_3.to_csv(r'data/IL_Cook3.csv')
 
-pd.read_csv(r'IL_Cook3.csv')
+print("\nExported dataset 3...\n")
 
+# pd.read_csv(r'data/IL_Cook3.csv') # not assigned to a variable
+
+# normalize
 df_3['Normalized Educational Attainment'] = (df_3['Percent Educational Attainment Less Than HS']/100)
 df_3['Normalized Non-White'] = df_3['Percent Non-White Population']/100
 df_3['Normalized Non-English Speaking'] = df_3['Percent Total Speak Other Language but speak English less than "very well']/100
@@ -295,4 +273,7 @@ df_3['Equity Index'] = ((df_3['Normalized Educational Attainment'] * ed_weight) 
 
 
 df_4 = df_3[['State', 'County', 'Tract' ,'Name', 'FIPS_Interim', 'Population', 'Normalized Educational Attainment',  'Normalized Non-White', 'Normalized Non-English Speaking', 'Normalized Poverty Score', 'Normalized Median Income', 'Percent Educational Attainment Less Than HS', 'Total Educational Attainment Less Than HS', 'Total Non-White Population', 'Percent Non-White Population', 'Percent Total Speak Other Language but speak English less than "very well' , 'Total Speak Other Language but speak English less than "very well"', 'Percent Below Poverty Line', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line', 'Median Income']]
-df_3.to_csv(r'IL_Cook_MedIncWeight.csv')
+
+df_4.to_csv(r'data/IL_Cook_MedIncWeight.csv') # should be dataset 4
+
+print("\nExported dataset MedIncWeight...\n")
