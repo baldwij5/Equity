@@ -272,7 +272,7 @@ df_3['Equity Index'] = ((df_3['Normalized Educational Attainment'] * ed_weight) 
                              (df_3['Normalized Median Income'] * med_income_weight))
 
 
-df_4 = df_3[['State', 'County', 'Tract' ,'Name', 'FIPS_Interim', 'Population', 'Normalized Educational Attainment',  'Normalized Non-White', 'Normalized Non-English Speaking', 'Normalized Poverty Score', 'Normalized Median Income', 'Percent Educational Attainment Less Than HS', 'Total Educational Attainment Less Than HS', 'Total Non-White Population', 'Percent Non-White Population', 'Percent Total Speak Other Language but speak English less than "very well' , 'Total Speak Other Language but speak English less than "very well"', 'Percent Below Poverty Line', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line', 'Median Income']]
+df_4 = df_3[['State', 'County', 'Tract' ,'Name', 'FIPS_Interim', 'Population', 'Normalized Educational Attainment',  'Normalized Non-White', 'Normalized Non-English Speaking', 'Normalized Poverty Score', 'Normalized Median Income', 'Percent Educational Attainment Less Than HS', 'Total Educational Attainment Less Than HS', 'Total Non-White Population', 'Percent Non-White Population', 'Percent Total Speak Other Language but speak English less than "very well' , 'Total Speak Other Language but speak English less than "very well"', 'Percent Below Poverty Line', 'Income in the past 12 months below poverty line', 'Income in the past 12 months below poverty line', 'Median Income', 'Equity Index']]
 
 df_4.to_csv(r'data/IL_Cook_MedIncWeight.csv') # should be dataset 4
 
