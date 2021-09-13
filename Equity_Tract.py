@@ -6,8 +6,8 @@ import csv
 
 ## Input
 # csv_name = 'data.csv'
-state = '17'
-county = '031'
+state = '48' # 48 texas
+county = '453' # 453 travis county
 tract = '*'
 block_group = '*'
 ed_weight = 0.175
@@ -151,9 +151,11 @@ vars_list = ['Name',
              'County',
             'Tract']
 
+
+# fetch data from api
 url = 'https://api.census.gov/data/2019/acs/acs5?get='
 
-print('https://api.census.gov/data/2019/acs/acs5?get=NAME&for=block%20group:*&in=state:17%20county:031')
+print(url + vars + '&for=tract:' + tract + '&in=state:' + state + '&in=county:' + county)
 r = requests.get(url + vars + '&for=tract:' + tract + '&in=state:' + state + '&in=county:' + county)
 print(r)
 request_text = r.text
