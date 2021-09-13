@@ -66,3 +66,5 @@ plt.show()
 
 # almost no difference in result
 # model foudn the formula for the equity index, no need to use prediction
+
+[print(i) for i in ei_data[ind_cols]]
